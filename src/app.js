@@ -43,7 +43,7 @@ function displayForecast(response) {
         `
               <div class="col-2">
                 <div class="weather-forecast-date">${formatDay(
-                  forecastDay.dt
+                  forecastDay.time
                 )}</div>
                 <img
                   src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
@@ -54,10 +54,10 @@ function displayForecast(response) {
                 />
                 <div class="weather-forecast-temperatures">
                   <span class="weather-forecast-temperature-max"> ${Math.round(
-                    forecastDay.temp.max
+                    forecastDay.temperature.maximum
                   )}°</span>
                   <span class="weather-forecast-temperature-min"> ${Math.round(
-                    forecastDay.temp.min
+                    forecastDay.temperature.minimum
                   )}° </span>
                 </div>
               </div>`;
@@ -70,17 +70,17 @@ function displayForecast(response) {
 function getForecast(coordinates) {
   console.log(coordinates);
   let apiKey = "606b2bd30a243tb08a6a78ff7b2d0foe";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}&units=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
 
 function displayTemperature(response) {
-  let temperatureElement = document.querySelector("#current-temperature");
-  let cityElement = document.querySelector("#current-city");
-  let descriptionElement = document.querySelector("#current-description");
+  let temperatureElement = document.querySelector("#temperature");
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
-  let dateElement = document.querySelector("#current-date");
+  let dateElement = document.querySelector("#date");
   let iconElement = document.querySelector("#icon");
 
   celsiusTemperature = response.data.temperature.current;
@@ -94,7 +94,7 @@ function displayTemperature(response) {
   iconElement.setAttribute("src", response.data.condition.icon_url);
   iconElement.setAttribute("alt", response.data.condition.description);
 
-  getForecast(response.data.coord);
+  getForecast(response.data.coordinates);
 }
 
 function search(city) {
